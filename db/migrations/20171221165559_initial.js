@@ -4,8 +4,6 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary();
       table.string('name');
       table.string('email');
-      table.integer('favoriteBands');
-      table.interger('favoriteVenues');
       table.string('preferredLocation');
     }),
 
