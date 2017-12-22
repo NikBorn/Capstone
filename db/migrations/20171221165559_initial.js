@@ -10,11 +10,13 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('bands', (table) => {
       table.increments('id').primary();
       table.string('bandName');
+      table.integer('apiKey');
     }),
 
     knex.schema.createTable('venues', (table) => {
       table.increments('id').primary();
       table.string('venuesName');
+      table.integer('apiKey');
     }),
 
     knex.schema.createTable('bands_users', (table) => {
