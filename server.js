@@ -42,8 +42,8 @@ app.get('/api/v1/users/:id', (request, response) => {
     });
 });
 
-app.get('/api/v1/users/:id/favorite_bands', (request, response => {
-  database('users_bands').where('userId', request.params.id).select()
+app.get('/api/v1/users/:id/favorite_bands', (request, response => { //needs updating
+  database('bands_users').where('userId', request.params.id).select()
     .then(bands => {
       if (bands.length) {
         return response.status(200).json(bands);
@@ -56,7 +56,7 @@ app.get('/api/v1/users/:id/favorite_bands', (request, response => {
     });
 }));
 
-app.get('/api/v1/users/:id/favorite_venues', (request, response => {
+app.get('/api/v1/users/:id/favorite_venues', (request, response => { //neds updating
   database('users_venues').where('userId', request.params.id).select()
     .then(venues => {
       if (venues.length) {

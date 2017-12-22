@@ -27,34 +27,17 @@ const favVenues = require('../../../data/usersVenuesData');
 
 
 exports.seed = function (knex, Promise) {
-  return knex('favorite_bands_join').del()
-    .then(() => knex('favorite_venues_join').del())
-    .then(() => knex('favorite_bands').del())
-    .then(() => knex('favorite_venues').del())
+  return knex('users_venues').del()
+    .then(() => knex('bands_users').del())
+    .then(() => knex('venues').del())
+    .then(() => knex('bands').del())
     .then(() => knex('users').del())
     .then(() => knex('users').insert(usersInfo, 'id'))
     .then(() => knex('bands').insert(bandsInfo, 'id'))
     .then(() => knex('venues').insert(venuesInfo, 'id'))
-    .then(() => knex('bands_users').insert(
-
-    ))
-    // .then(() => {
-    //   let favVenuesPromises = [];
-    //   favVenuesData.forEach(venue => {
-    //     let fans = venue.fans;
-    //     fans.forEach(fan => {
-    //       favVenuesPromises.push(createVenue(knex, venue, fan));
-    //     });
-    //   });
-    // })
-    // .then(() => {
-    //   let favBandsPromises = [];
-    //   favBandsData.forEach(band => {
-    //     let fans = bands.fans;
-    //     fans.forEach(fan => {
-    //       favBandsPromises.push(createBand(knex, band, fan));
-    //     });
-    //   });
-    // });
+    .then(() => knex('bands_users').insert(favBands, 'id'))
+    .then(() => knex('users_venues').insert(favVenues, 'id'))
+    .then(() => console.log('Dev Seeding Complete!'))
+    .catch(error => console.log({ error }));
 };
 

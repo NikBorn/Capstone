@@ -1,42 +1,42 @@
 module.exports = [
   {
-    name: 'REM',
-    apiId: ''
+    bandName: 'REM',
+    apiKey: 34
   },
   {
-    name: 'STP',
-    apiId: ''
+    bandName: 'STP',
+    apiKey: 36
   },
   {
-    name: 'Nathaniel Rateliff and the Nightsweats',
-    apiId: ''
+    bandName: 'Nathaniel Rateliff and the Nightsweats',
+    apiKey: 3
   },
   {
-    name: 'Beyonce',
-    apiId: ''
+    bandName: 'Beyonce',
+    apiKey: 32
   },
   {
-    name: 'Jay-Z',
-    apiId: ''
+    bandName: 'Jay-Z',
+    apiKey: 92
   },
   {
-    name: 'Eminem',
-    apiId: ''
+    bandName: 'Eminem',
+    apiKey: 21
   },
   {
-    name: 'Cher',
-    apiId: ''
+    bandName: 'Cher',
+    apiKey: 12
   },
   {
-    name: 'Laydy Gaga',
-    apiId: ''
+    bandName: 'Laydy Gaga',
+    apiKey: 20
   },
   {
-    name: 'Metalica',
-    apiId: ''
+    bandName: 'Metalica',
+    apiKey: 25
   },
   {
-    name: 'Micheal Bolton',
-    apiId: ''
+    bandName: 'Micheal Bolton',
+    apiKey: 86
   }
 ];

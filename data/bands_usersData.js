@@ -1,42 +1,42 @@
 module.exports = [
   {
-    userId: '1',
-    bandId: '1'
+    usersId: 1,
+    bandId: 1
   },
   {
-    userId: '2',
-    bandId: '2'
+    usersId: 2,
+    bandId: 2
   },
   {
-    userId: '1',
-    bandId: '3'
+    usersId: 1,
+    bandId: 3
   },
   {
-    userId: '2',
-    bandId: '4'
+    usersId: 2,
+    bandId: 4
   },
   {
-    userId: '1',
-    bandId: '5'
+    usersId: 1,
+    bandId: 5
   },
   {
-    userId: '2',
-    bandId: '6'
+    usersId: 2,
+    bandId: 6
   },
   {
-    userId: '1',
-    bandId: '7'
+    usersId: 1,
+    bandId: 7
   },
   {
-    userId: '2',
-    bandId: '8'
+    usersId: 2,
+    bandId: 8
   },
   {
-    userId: '1',
-    bandId: '9'
+    usersId: 1,
+    bandId: 9
   },
   {
-    userId: '2',
-    bandId: '10'
+    usersId: 2,
+    bandId: 10
   }
 ];
