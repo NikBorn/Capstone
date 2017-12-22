@@ -1,42 +1,42 @@
 module.exports = [
   {
     name: 'REM',
-    fans: []
+    apiId: ''
   },
   {
     name: 'STP',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Nathaniel Rateliff and the Nightsweats',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Beyonce',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Jay-Z',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Eminem',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Cher',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Laydy Gaga',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Metalica',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Micheal Bolton',
-    fans: []
+    apiId: ''
   }
 ];

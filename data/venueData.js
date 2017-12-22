@@ -1,18 +1,18 @@
 module.exports = [
   {
     name: 'Red Rocks',
-    fans: []
+    apiId: ''
   },
   {
     name: 'Fiddlers Green',
-    fans: []
+    apiId: ''
   },
   {
     name: 'The Ogden',
-    fans: []
+    apiId: ''
   },
   {
     name: 'The Bluebird',
-    fans: []
+    apiId: ''
   }
 ];
