@@ -145,6 +145,22 @@ app.post('/api/v1/bands', (request, response) => {
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
+app.post('/api/v1/venues', (request, response) => {
+  const newVenue = request.body;
+
+  for ( let requiredParameter of ['venuesName', 'apiKey']) {
+    if (!newVenue[requiredParameter]) {
+      return response.status(422).json({
+        error: `You are missing the ${requiredParameter} property`
+      });
+    }
+  }
+
+  database('venues').insert(newVenue, '*')
+    .then(insertedVenue => response.status(201).json(insertedVenue))
+    .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
+});
+
 app.post('/api/v1/users/:id/bands_users', (request, response) => {
   const { id } = request.parmas;
   const { bandId } = request.body;
