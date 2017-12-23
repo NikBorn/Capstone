@@ -131,3 +131,21 @@ app.post('/api/v1/users/:id/bands_users', (request, response) => {
     .then(insertedBand => response.status(201).json(insertedBand))
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
+
+app.post('/api/v1/users/:id/users_venues', (request, response) => {
+  const { id } = request.parmas;
+  const { venueId } = request.body;
+  const favoriteVenue = Object.assign({}, {venueId}, {userId: id});
+
+  for ( let requiredParameter of ['venueId', 'usersId']) {
+    if (!favoriteVenue[requiredParameter]) {
+      return response.status(422).json({
+        error: `You are missing the ${requiredParameter} property`
+      });
+    }
+  }
+
+  database('users_venues').insert(favoriteVenue, '*')
+    .then(insertedVenue => response.status(201).json(insertedVenue))
+    .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
+});
