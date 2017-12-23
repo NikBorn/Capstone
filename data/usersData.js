@@ -2,13 +2,15 @@ module.exports = [
   {
     name: 'nik',
     email: 'nik@nik.com',
-    favoriteBands: [1, 3, 5, 7, 9],
-    favoriteVenues: [1, 3]
+    preferredLocation: 'denver, co',
+    favBands: ['REM', 'Nathaniel Rateliff and the Nightsweats', 'Jay-Z', 'Cher', 'Metalica'],
+    favVenues: ['Red Rocks', 'The Ogden']
   },
   {
     name: 'ben',
     email: 'ben@ben.com',
-    favoriteBands: [2, 4, 6, 8, 10],
-    favoriteVenues: [2, 4]
+    preferredLocation: 'denver, co',
+    favBands: ['STP', 'Beyonce', 'Eminem', 'Laydy Gaga', 'Micheal Bolton'],
+    favVenues: ['Fiddlers Green', 'The Bluebird']
   }
 ];

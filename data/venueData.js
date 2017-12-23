@@ -1,18 +1,18 @@
 module.exports = [
   {
-    name: 'Red Rocks',
-    fans: []
+    venuesName: 'Red Rocks',
+    apiKey: 12
   },
   {
-    name: 'Fiddlers Green',
-    fans: []
+    venuesName: 'Fiddlers Green',
+    apiKey: 145
   },
   {
-    name: 'The Ogden',
-    fans: []
+    venuesName: 'The Ogden',
+    apiKey: 11
   },
   {
-    name: 'The Bluebird',
-    fans: []
+    venuesName: 'The Bluebird',
+    apiKey: 13
   }
 ];
