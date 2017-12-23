@@ -114,6 +114,22 @@ app.post('/api/v1/users', (request, response) => {
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
+app.post('/api/v1/bands', (request, response) => {
+  const newBand = request.body;
+
+  for ( let requiredParameter of ['bandName', 'apiKey']) {
+    if (!newBand[requiredParameter]) {
+      return response.status(422).json({
+        error: `You are missing the ${requiredParameter} property`
+      });
+    }
+  }
+
+  database('bands').insert(newBand, '*')
+    .then(insertedBand=> response.status(201).json(insertedBand))
+    .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
+});
+
 app.post('/api/v1/users/:id/bands_users', (request, response) => {
   const { id } = request.parmas;
   const { bandId } = request.body;
