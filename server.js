@@ -8,6 +8,10 @@ const database = require('knex')(configuration);
 
 app.set('port', process.env.PORT || 3000);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/public'));
+
 app.get('/api/v1/users', (request, response) => {
   database('users').select()
     .then(users => {
@@ -110,6 +114,7 @@ app.get('/api/v1/venues/:id/fans', (request, response) => {
 
 app.post('/api/v1/users', (request, response) => {
   const newUser = request.body;
+  console.log(request);
 
   for ( let requiredParameter of ['name', 'email', 'preferredLocation']) {
     if (!newUser[requiredParameter]) {
