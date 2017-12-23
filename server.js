@@ -99,18 +99,18 @@ app.get('/api/v1/venues/:id/fans', (request, response => {
 }));
 
 app.post('/api/v1/users', (request, response) => {
-  const { name, email, preferredLocation } = request.body;
+  const newUser = request.body;
 
-  for ( let requiredParameter of ['name', 'usersId']) {
-    if (!favoriteBand[requiredParameter]) {
+  for ( let requiredParameter of ['name', 'email', 'preferredLocation']) {
+    if (!newUser[requiredParameter]) {
       return response.status(422).json({
         error: `You are missing the ${requiredParameter} property`
       });
     }
   }
 
-  database('bands_users').insert(favoriteBand, '*')
-    .then(insertedBand => response.status(201).json(insertedBand))
+  database('users').insert(newUser, '*')
+    .then(insertedUser => response.status(201).json(insertedUser))
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
