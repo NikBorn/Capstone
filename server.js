@@ -1,3 +1,11 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
+
 app.get('/api/v1/users', (request, response) => {
   database('users').select()
     .then(users => {
@@ -42,7 +50,7 @@ app.get('/api/v1/users/:id', (request, response) => {
     });
 });
 
-app.get('/api/v1/users/:id/favorite_bands', (request, response => { //needs updating
+app.get('/api/v1/users/:id/favorite_bands', (request, response) => { //needs updating
   database('bands_users').where('userId', request.params.id).select()
     .then(bands => {
       if (bands.length) {
@@ -54,9 +62,9 @@ app.get('/api/v1/users/:id/favorite_bands', (request, response => { //needs upda
     .catch(error => {
       return response.status(500).json({ error });
     });
-}));
+});
 
-app.get('/api/v1/users/:id/favorite_venues', (request, response => { //neds updating
+app.get('/api/v1/users/:id/favorite_venues', (request, response) => { //neds updating
   database('users_venues').where('userId', request.params.id).select()
     .then(venues => {
       if (venues.length) {
@@ -68,9 +76,9 @@ app.get('/api/v1/users/:id/favorite_venues', (request, response => { //neds upda
     .catch(error => {
       return response.status(500).json({ error });
     });
-}));
+});
 
-app.get('/api/v1/bands/:id/fans', (request, response => {
+app.get('/api/v1/bands/:id/fans', (request, response) => {
   database('users_bands').where('bandId', request.params.id).select()
     .then(fans => {
       if (fans.length) {
@@ -82,9 +90,9 @@ app.get('/api/v1/bands/:id/fans', (request, response => {
     .catch(error => {
       return response.status(500).json({ error });
     });
-}));
+});
 
-app.get('/api/v1/venues/:id/fans', (request, response => {
+app.get('/api/v1/venues/:id/fans', (request, response) => {
   database('users_venues').where('venueId', request.params.id).select()
     .then(fans => {
       if (fans.length) {
@@ -96,7 +104,7 @@ app.get('/api/v1/venues/:id/fans', (request, response => {
     .catch(error => {
       return response.status(500).json({ error });
     });
-}));
+});
 
 app.post('/api/v1/users', (request, response) => {
   const newUser = request.body;
