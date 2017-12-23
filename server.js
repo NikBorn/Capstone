@@ -6,6 +6,8 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
+app.set('port', process.env.PORT || 3000);
+
 app.get('/api/v1/users', (request, response) => {
   database('users').select()
     .then(users => {
@@ -172,4 +174,8 @@ app.post('/api/v1/users/:id/users_venues', (request, response) => {
   database('users_venues').insert(favoriteVenue, '*')
     .then(insertedVenue => response.status(201).json(insertedVenue))
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
+});
+
+app.listen(app.get('port'), () => {
+  console.log(`App is running on ${app.get('port')}.`);
 });
