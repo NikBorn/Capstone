@@ -98,4 +98,36 @@ app.get('/api/v1/venues/:id/fans', (request, response => {
     });
 }));
 
+app.post('/api/v1/users', (request, response) => {
+  const { name, email, preferredLocation } = request.body;
 
+  for ( let requiredParameter of ['name', 'usersId']) {
+    if (!favoriteBand[requiredParameter]) {
+      return response.status(422).json({
+        error: `You are missing the ${requiredParameter} property`
+      });
+    }
+  }
+
+  database('bands_users').insert(favoriteBand, '*')
+    .then(insertedBand => response.status(201).json(insertedBand))
+    .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
+});
+
+app.post('/api/v1/users/:id/bands_users', (request, response) => {
+  const { id } = request.parmas;
+  const { bandId } = request.body;
+  const favoriteBand = Object.assign({}, {bandId}, {userId: id});
+
+  for ( let requiredParameter of ['bandId', 'usersId']) {
+    if (!favoriteBand[requiredParameter]) {
+      return response.status(422).json({
+        error: `You are missing the ${requiredParameter} property`
+      });
+    }
+  }
+
+  database('bands_users').insert(favoriteBand, '*')
+    .then(insertedBand => response.status(201).json(insertedBand))
+    .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
+});

@@ -5,14 +5,10 @@ const favBands = require('../../../data/bands_usersData');
 const favVenues = require('../../../data/usersVenuesData');
 
 const createBandUserJoin = (knex, band, user) => {
-  console.log('user', user)
   return knex('users').where('name', user).first()
     .then(userRecord => {
-      console.log('userRecord', userRecord)
       return knex('bands').where('bandName', band).first()
         .then(bandRecord => {
-            console.log(userRecord)
-            console.log(bandRecord)
           return knex('bands_users').insert({
             bandId: bandRecord.id,
             usersId: userRecord.id
@@ -45,12 +41,12 @@ exports.seed = function (knex, Promise) {
     .then(() => knex('bands').insert(bandsInfo, 'id'))
     .then(() => knex('venues').insert(venuesInfo, 'id'))
     .then(() => {
-      let userObjects = []
+      let userObjects = [];
       usersInfo.forEach(user => {
-        userObjects.push({ name: user.name, email: user.email, preferredLocation: user.preferredLocation })
-      })
-      console.log(userObjects)
-      knex('users').insert(userObjects, 'id')
+        userObjects.push({ name: user.name, email: user.email, preferredLocation: user.preferredLocation });
+      });
+      console.log(userObjects);
+      knex('users').insert(userObjects, 'id');
     })
     .then( () => {
       let pendingPromises = [];
@@ -71,4 +67,3 @@ exports.seed = function (knex, Promise) {
     .then(() => console.log('Dev Seeding Complete!'))
     .catch(error => console.log({ error }));
 };
-
