@@ -1,9 +1,7 @@
-const usersInfo = require('../../../data/usersData');
-const bandsInfo = require('../../../data/bandsData');
-const venuesInfo = require('../../../data/venueData');
-const favBands = require('../../../data/bands_usersData');
-const favVenues = require('../../../data/usersVenuesData');
-const simpleUsers = require('../../../data/usersSimple');
+const usersInfo = require('../../../data/test-usersData');
+const bandsInfo = require('../../../data/test-bandsData');
+const venuesInfo = require('../../../data/test-venueData');
+const simpleUsers = require('../../../data/test-usersSimple');
 
 const createBandUserJoin = (knex, band, user) => {
 
@@ -44,7 +42,7 @@ exports.seed = function (knex, Promise) {
     .then(() => knex('bands').insert(bandsInfo, 'id'))
     .then(() => knex('venues').insert(venuesInfo, 'id'))
     .then(() => knex('users').insert(simpleUsers, 'id'))
-    .then( () => {
+    .then(() => {
       let pendingPromises = [];
       usersInfo.forEach(user => {
         let bands = user.favBands;
@@ -58,7 +56,6 @@ exports.seed = function (knex, Promise) {
       });
       return Promise.all(pendingPromises);
     })
-    .then(() => console.log('Dev Seeding Complete!'))
+    .then(() => console.log('Test Seeding Complete!'))
     .catch(error => console.log({ error }));
 };
-
