@@ -221,4 +221,38 @@ describe('API Routes', (done) => {
     });
   });
 
+  describe('POST /api/v1/users/:userid/users_venues/:venueid', () => {
+    it("should add new favband ID and user ID to the users_venues joins table", (done) => {
+      chai.request(server)
+        .post('/api/v1/users/1/users_venues/1')
+        .then(response => {
+          response.should.have.status(201);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('venueId');
+          response.body[0].venueId.should.equal(1);
+          response.body[0].should.have.property('id');
+          response.body[0].should.have.property('usersId');
+          response.body[0].usersId.should.equal(1);
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+
+    it("should display an error if request body is missing url param", (done) => {
+      chai.request(server)
+        .post('/api/v1/users/1/users_venues/')
+        .then(response => {
+          response.should.have.status(404);
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+  });
+
 });
