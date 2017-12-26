@@ -1,18 +1,18 @@
 module.exports = [
   {
     id: 1,
-    name: 'nik',
+    name: 'TEST-nik',
     email: 'nik@nik.com',
     preferredLocation: 'denver, co',
-    favBands: ['REM', 'Nathaniel Rateliff and the Nightsweats', 'Jay-Z', 'Cher', 'Metalica'],
-    favVenues: ['Red Rocks', 'The Ogden']
+    favBands: ['TEST-REM', 'TEST-Nathaniel Rateliff and the Nightsweats', 'TEST-Jay-Z', 'TEST-Cher', 'TEST-Metalica'],
+    favVenues: ['TEST-Red Rocks', 'TEST-The Ogden']
   },
   {
     id: 2,
-    name: 'ben',
+    name: 'TEST-ben',
     email: 'ben@ben.com',
     preferredLocation: 'denver, co',
-    favBands: ['STP', 'Beyonce', 'Eminem', 'Laydy Gaga', 'Micheal Bolton'],
-    favVenues: ['Fiddlers Green', 'The Bluebird']
+    favBands: ['TEST-STP', 'TEST-Beyonce', 'TEST-Eminem', 'TEST-Laydy Gaga', 'TEST-Micheal Bolton'],
+    favVenues: ['TEST-Fiddlers Green', 'TEST-The Bluebird']
   }
 ];

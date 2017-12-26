@@ -210,3 +210,6 @@ app.post('/api/v1/users/:id/users_venues', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}.`);
 });
+
+
+module.exports = app;
