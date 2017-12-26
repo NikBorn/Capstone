@@ -93,4 +93,51 @@ describe('API Routes', (done) => {
     });
   });
 
+  describe('POST /api/v1/bands', () => {
+    it("should add new band to bands table", (done) => {
+      chai.request(server)
+        .post('/api/v1/bands')
+        .send({
+          id: 25,
+          bandName: 'The Grateful Dead',
+          apiKey: 29
+        })
+        .then(response => {
+          response.should.have.status(201);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('bandName');
+          response.body[0].bandName.should.equal('The Grateful Dead');
+          response.body[0].should.have.property('id');
+          response.body[0].id.should.equal(25);
+          response.body[0].should.have.property('apiKey');
+          response.body[0].apiKey.should.equal(29);
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+
+    it("should display an error if request body is missing parameter", (done) => {
+      chai.request(server)
+        .post('/api/v1/users')
+        .send({
+          id: 25,
+          bandName: 'The Grateful Dead'
+        })
+        .then(response => {
+          response.should.have.status(422);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('You are missing the name property');
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+  });
+
 });
