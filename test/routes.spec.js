@@ -140,4 +140,51 @@ describe('API Routes', (done) => {
     });
   });
 
+  describe('POST /api/v1/venues', () => {
+    it("should add new venue to venuess table", (done) => {
+      chai.request(server)
+        .post('/api/v1/venues')
+        .send({
+          id: 25,
+          venuesName: 'Ogden Theater',
+          apiKey: 15
+        })
+        .then(response => {
+          response.should.have.status(201);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('venuesName');
+          response.body[0].venuesName.should.equal('Ogden Theater');
+          response.body[0].should.have.property('id');
+          response.body[0].id.should.equal(25);
+          response.body[0].should.have.property('apiKey');
+          response.body[0].apiKey.should.equal(15);
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+
+    it("should display an error if request body is missing parameter", (done) => {
+      chai.request(server)
+        .post('/api/v1/venues')
+        .send({
+          id: 25,
+          venuesName: 'Ogden Theater'
+        })
+        .then(response => {
+          response.should.have.status(422);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('You are missing the apiKey property');
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+  });
+
 });
