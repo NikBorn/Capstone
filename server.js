@@ -32,6 +32,16 @@ app.get('/api/v1/bands', (request, response) => {
     });
 });
 
+app.get('/api/v1/bands_users', (request, response) => {
+  database('bands_users').select()
+    .then(bands => {
+      return response.status(200).json(bands);
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
+});
+
 app.get('/api/v1/venues', (request, response) => {
   database('favorite_venues').select()
     .then(venues => {
@@ -166,13 +176,13 @@ app.post('/api/v1/users/:id/bands_users/:bandid', (request, response) => {
   const bandId  = request.body;
   console.log(bandId);
   const favoriteBand = Object.assign({}, {bandId: bandId}, {usersId: id});
-  // for ( let requiredParameter of ['bandId', 'usersId']) {
-  //   if (!favoriteBand[requiredParameter]) {
-  //     return response.status(422).json({
-  //       error: `You are missing the ${requiredParameter} property`
-  //     });
-  //   }
-  // }
+  for ( let requiredParameter of ['bandId', 'usersId']) {
+    if (!favoriteBand[requiredParameter]) {
+      return response.status(422).json({
+        error: `You are missing the ${requiredParameter} property`
+      });
+    }
+  }
 
   database('bands_users').insert(favoriteBand, '*')
     .then(insertedBand => response.status(201).json(insertedBand))
