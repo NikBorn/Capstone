@@ -61,4 +61,3 @@ exports.seed = function (knex, Promise) {
     .then(() => console.log('Dev Seeding Complete!'))
     .catch(error => console.log({ error }));
 };
-
