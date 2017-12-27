@@ -255,4 +255,99 @@ describe('API Routes', (done) => {
     });
   });
 
+  describe('DELETE /api/v1/users/:userid/bands_users/:bandid', () => {
+    it("should delete band from bands_users table", (done) => {
+      chai.request(server)
+        .delete('/api/v1/users/1/bands_users/1')
+        .then(response => {
+          response.should.have.status(204);
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+
+    it("should serve an error if band is not found", (done) => {
+      chai.request(server)
+        .delete('/api/v1/users/1/bands_users/100')
+        .then(response => {
+          response.should.have.status(422);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('Nothing to delete with id 100');
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+  });
+
+  describe('DELETE /api/v1/users/:userid/users_venues/:venueid', () => {
+    it("should delete venue from users_venues table", (done) => {
+      chai.request(server)
+        .delete('/api/v1/users/1/users_venues/1')
+        .then(response => {
+          response.should.have.status(204);
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+
+    it("should serve an error if venue is not found", (done) => {
+      chai.request(server)
+        .delete('/api/v1/users/1/users_venues/100')
+        .then(response => {
+          response.should.have.status(422);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('Nothing to delete with id 100');
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+  });
+
+  describe('PATCH /api/v1/users/:id', () => {
+    it.skip("should update user in users table", (done) => {
+      chai.request(server)
+        .patch('/api/v1/users/1')
+        .send({
+          email: 'email@email.com'
+        })
+        .then(response => {
+          response.should.have.status(204);
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+
+
+    it('should return 404 error for user that does not exist', (done) => {
+      chai.request(server)
+        .patch('/api/v1/users/100')
+        .send({
+          email: 'email@email.com'
+        })
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('Could not find a user with id: 100');
+          done();
+        })
+        .catch((error) => {
+          throw error;
+        });
+    });
+  });
+
+
 });

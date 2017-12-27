@@ -191,6 +191,62 @@ app.post('/api/v1/users/:userid/users_venues/:venueid', (request, response) => {
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
+app.delete('/api/v1/users/:userid/bands_users/:bandid', (request, response) => {
+  const { userid, bandid } = request.params;
+
+  database('bands_users').where({usersId: userid,
+    bandId: bandid}).del()
+    .then(band => band ?
+      response.sendStatus(204)
+      :
+      response.status(422).json({ error: `Nothing to delete with id ${bandid || userId}`})
+    )
+    .catch(error =>  response.status(500).json({ error }));
+});
+
+app.delete('/api/v1/users/:userid/users_venues/:venueid', (request, response) => {
+  const { userid, venueid } = request.params;
+
+  database('users_venues').where({usersId: userid,
+    venueId: venueid}).del()
+    .then(venue => venue ?
+      response.sendStatus(204)
+      :
+      response.status(422).json({ error: `Nothing to delete with id ${venueid || userId}`})
+    )
+    .catch(error =>  response.status(500).json({ error }));
+});
+
+app.patch('/api/v1/users/:id', (request, response) => {
+  let { email, preferredLocation } = request.body;
+  const { id } = request.params;
+
+  if (email){
+    database('users').where('id', id).update('email', email)
+      .then(updatedUser => {
+        updatedUser ? response.status(204)
+          :
+          response.status(404).json({
+            error: `Could not find a user with id: ${id}`
+          });
+      })
+      .catch(error => response.status(500).json({error: `internal server error ${error}`}));
+  }
+
+  if (preferredLocation){
+    database('users').where('id', id).update('preferredLocation', preferredLocation)
+      .then(updatedUser => {
+        updatedUser ? response.status(204)
+          :
+          response.status(404).json({
+            error: `Could not find a user with id: ${id}`
+          });
+      })
+      .catch(error => response.status(500).json({error: `internal server error ${error}`}));
+  }
+
+});
+
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}.`);
 });
