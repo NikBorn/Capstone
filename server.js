@@ -124,7 +124,6 @@ app.get('/api/v1/venues/:id/fans', (request, response) => {
 
 app.post('/api/v1/users', (request, response) => {
   const newUser = request.body;
-  console.log(request);
 
   for ( let requiredParameter of ['name', 'email', 'preferredLocation']) {
     if (!newUser[requiredParameter]) {
@@ -171,36 +170,21 @@ app.post('/api/v1/venues', (request, response) => {
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
-app.post('/api/v1/users/:id/bands_users/:bandid', (request, response) => {
-  const { id } = request.params;
-  const bandId  = request.body;
-  console.log(bandId);
-  const favoriteBand = Object.assign({}, {bandId: bandId}, {usersId: id});
-  for ( let requiredParameter of ['bandId', 'usersId']) {
-    if (!favoriteBand[requiredParameter]) {
-      return response.status(422).json({
-        error: `You are missing the ${requiredParameter} property`
-      });
-    }
-  }
+app.post('/api/v1/users/:userid/bands_users/:bandid', (request, response) => {
+  const { userid, bandid } = request.params;
+
+  const favoriteBand = Object.assign({}, {bandId: bandid}, {usersId: userid});
+
 
   database('bands_users').insert(favoriteBand, '*')
     .then(insertedBand => response.status(201).json(insertedBand))
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
-app.post('/api/v1/users/:id/users_venues', (request, response) => {
-  const { id } = request.parmas;
-  const { venueId } = request.body;
-  const favoriteVenue = Object.assign({}, {venueId}, {userId: id});
+app.post('/api/v1/users/:userid/users_venues/:venueid', (request, response) => {
+  const { userid, venueid } = request.params;
 
-  for ( let requiredParameter of ['venueId', 'usersId']) {
-    if (!favoriteVenue[requiredParameter]) {
-      return response.status(422).json({
-        error: `You are missing the ${requiredParameter} property`
-      });
-    }
-  }
+  const favoriteVenue = Object.assign({}, {usersId: userid}, {venueId: venueid});
 
   database('users_venues').insert(favoriteVenue, '*')
     .then(insertedVenue => response.status(201).json(insertedVenue))
