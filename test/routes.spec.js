@@ -131,10 +131,38 @@ describe('API Routes', (done) => {
           response.should.be.json;
           response.body.should.be.a('object');
           response.body.error.should.equal('No favorite bands saved for user 3');   
-        })
-    })
+        });
+    });
   });
 
+  describe('GET /api/v1/users/:id/favorite_venues', () => {
+    it('should return an array of a users favorite venues', () => {
+      return chai.request(server)
+        .get('/api/v1/users/1/favorite_venues')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(2);
+          response.body[0].should.have.property('venueId');
+          response.body[0].should.have.property('usersId');
+          response.body[0].should.have.property('id');
+        });
+    });
+    it('should return an error if no favorite venues saved for that user', () => {
+      return chai.request(server)
+        .get('/api/v1/users/3/favorite_venues')
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No favorite venues saved for user 3');
+        });
+    });
+  });
+
+  
   describe('POST /api/v1/users', () => {
     it("should add new users to users table", (done) => {
       chai.request(server)
