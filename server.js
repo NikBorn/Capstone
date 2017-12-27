@@ -43,7 +43,7 @@ app.get('/api/v1/bands_users', (request, response) => {
 });
 
 app.get('/api/v1/venues', (request, response) => {
-  database('favorite_venues').select()
+  database('venues').select()
     .then(venues => {
       return response.status(200).json(venues);
     })
