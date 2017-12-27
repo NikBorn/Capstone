@@ -104,6 +104,33 @@ describe('API Routes', (done) => {
           response.should.be.json;
           response.body.should.be.a('object');
           response.body.error.should.equal('No user for id 10');
+        });
+    });
+  });
+
+  describe('GET /api/v1/users/:id/favorite_bands', () => {
+    it('should return an array of a users favorite bands', () => {
+      return chai.request(server)
+        .get('/api/v1/users/2/favorite_bands')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(5);
+          response.body[0].should.have.property('bandId');
+          response.body[0].should.have.property('usersId');
+          response.body[0].should.have.property('id');
+        });
+    });
+    it('should return an error if no favorite bands saved for that user', () => {
+      return chai.request(server)
+        .get('/api/v1/users/3/favorite_bands')
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No favorite bands saved for user 3');   
         })
     })
   });

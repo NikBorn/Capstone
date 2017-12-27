@@ -67,12 +67,12 @@ app.get('/api/v1/users/:id', (request, response) => {
 });
 
 app.get('/api/v1/users/:id/favorite_bands', (request, response) => { //needs updating
-  database('bands_users').where('userId', request.params.id).select()
+  database('bands_users').where('usersId', request.params.id).select()
     .then(bands => {
       if (bands.length) {
         return response.status(200).json(bands);
       } else {
-        return response.status(404).json({ error: `No favorite bands daved for user ${request.params.id}`});
+        return response.status(404).json({ error: `No favorite bands saved for user ${request.params.id}`});
       }
     })
     .catch(error => {
