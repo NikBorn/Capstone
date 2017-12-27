@@ -201,8 +201,20 @@ app.delete('/api/v1/users/:userid/bands_users/:bandid', (request, response) => {
       :
       response.status(422).json({ error: `Nothing to delete with id ${bandid || userId}`})
     )
-    .catch(error =>  { console.log(error)
-      response.status(500).json({ error })});
+    .catch(error =>  response.status(500).json({ error }));
+});
+
+app.delete('/api/v1/users/:userid/users_venues/:venueid', (request, response) => {
+  const { userid, venueid } = request.params;
+
+  database('users_venues').where({usersId: userid,
+    venueId: venueid}).del()
+    .then(venue => venue ?
+      response.sendStatus(204)
+      :
+      response.status(422).json({ error: `Nothing to delete with id ${venueid || userId}`})
+    )
+    .catch(error =>  response.status(500).json({ error }));
 });
 
 app.listen(app.get('port'), () => {

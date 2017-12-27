@@ -267,9 +267,7 @@ describe('API Routes', (done) => {
           throw error;
         });
     });
-  });
 
-  describe('DELETE /api/v1/users/:userid/bands_users/:bandid', () => {
     it("should serve an error if band is not found", (done) => {
       chai.request(server)
         .delete('/api/v1/users/1/bands_users/100')
@@ -285,5 +283,35 @@ describe('API Routes', (done) => {
         });
     });
   });
+
+  describe('DELETE /api/v1/users/:userid/users_venues/:venueid', () => {
+    it("should delete venue from users_venues table", (done) => {
+      chai.request(server)
+        .delete('/api/v1/users/1/users_venues/1')
+        .then(response => {
+          response.should.have.status(204);
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+
+    it("should serve an error if venue is not found", (done) => {
+      chai.request(server)
+        .delete('/api/v1/users/1/users_venues/100')
+        .then(response => {
+          response.should.have.status(422);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('Nothing to delete with id 100');
+          done();
+        })
+        .catch(error => {
+          throw error;
+        });
+    });
+  });
+
 
 });
