@@ -191,6 +191,20 @@ app.post('/api/v1/users/:userid/users_venues/:venueid', (request, response) => {
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
+app.delete('/api/v1/users/:userid/bands_users/:bandid', (request, response) => {
+  const { userid, bandid } = request.params;
+
+  database('bands_users').where({usersId: userid,
+    bandId: bandid}).del()
+    .then(band => band ?
+      response.sendStatus(204)
+      :
+      response.status(422).json({ error: `Nothing to delete with id ${bandid || userId}`})
+    )
+    .catch(error =>  { console.log(error)
+      response.status(500).json({ error })});
+});
+
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}.`);
 });
