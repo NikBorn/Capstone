@@ -223,8 +223,8 @@ app.patch('/api/v1/users/:id', (request, response) => {
 
   if (email){
     database('users').where('id', id).update('email', email)
-      .then(updatedItem => {
-        updatedItem ? response.status(204)
+      .then(updatedUser => {
+        updatedUser ? response.status(204)
           :
           response.status(404).json({
             error: `Could not find a user with id: ${id}`
@@ -235,8 +235,8 @@ app.patch('/api/v1/users/:id', (request, response) => {
 
   if (preferredLocation){
     database('users').where('id', id).update('preferredLocation', preferredLocation)
-      .then(updatedItem => {
-        updatedItem ? response.status(204)
+      .then(updatedUser => {
+        updatedUser ? response.status(204)
           :
           response.status(404).json({
             error: `Could not find a user with id: ${id}`
