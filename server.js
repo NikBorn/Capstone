@@ -217,6 +217,36 @@ app.delete('/api/v1/users/:userid/users_venues/:venueid', (request, response) =>
     .catch(error =>  response.status(500).json({ error }));
 });
 
+app.patch('/api/v1/users/:id', (request, response) => {
+  let { email, preferredLocation } = request.body;
+  const { id } = request.params;
+
+  if (email){
+    database('users').where('id', id).update('email', email)
+      .then(updatedItem => {
+        updatedItem ? response.status(204)
+          :
+          response.status(404).json({
+            error: `Could not find a user with id: ${id}`
+          });
+      })
+      .catch(error => response.status(500).json({error: `internal server error ${error}`}));
+  }
+
+  if (preferredLocation){
+    database('users').where('id', id).update('preferredLocation', preferredLocation)
+      .then(updatedItem => {
+        updatedItem ? response.status(204)
+          :
+          response.status(404).json({
+            error: `Could not find a user with id: ${id}`
+          });
+      })
+      .catch(error => response.status(500).json({error: `internal server error ${error}`}));
+  }
+
+});
+
 app.listen(app.get('port'), () => {
   console.log(`App is running on ${app.get('port')}.`);
 });
