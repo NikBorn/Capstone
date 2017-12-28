@@ -42,6 +42,127 @@ describe('API Routes', (done) => {
     });
   });
 
+  describe('GET /api/v1/bands', () => {
+    it('should return all bands', () => {
+      return chai.request(server)
+        .get('/api/v1/bands')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(10);
+          response.body[0].should.have.property('bandName');
+          response.body[0].bandName.should.equal('TEST-REM');
+          response.body[0].should.have.property('id');
+        })
+        .catch(error => { throw error; });
+    });
+  });
+
+  describe('GET /api/v1/venues', () => {
+    it('should return all venues', () => {
+      return chai.request(server)
+        .get('/api/v1/venues')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(4);
+          response.body[0].should.have.property('venuesName');
+          response.body[0].venuesName.should.equal('TEST-Red Rocks');
+          response.body[0].should.have.property('id');
+        })
+        .catch(error => { throw error; });
+    });
+  });
+
+  describe('GET /api/v1/users/:id', () => {
+    it('shold return a specific user', () => {
+      return chai.request(server)
+        .get('/api/v1/users/1')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('name');
+          response.body[0].name.should.equal('TEST-nik');
+          response.body[0].should.have.property('id');
+          response.body[0].should.have.property('email');
+          response.body[0].email.should.equal('nik@nik.com');
+          response.body[0].should.have.property('preferredLocation');
+          response.body[0].preferredLocation.should.equal('denver, co');
+        })
+        .catch(error => { throw error; });
+    });
+
+    it('should not return a user if no user with that id exists', () => {
+      return chai.request(server)
+        .get('/api/v1/users/10')
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No user for id 10');
+        });
+    });
+  });
+
+  describe('GET /api/v1/users/:id/favorite_bands', () => {
+    it('should return an array of a users favorite bands', () => {
+      return chai.request(server)
+        .get('/api/v1/users/2/favorite_bands')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(5);
+          response.body[0].should.have.property('bandId');
+          response.body[0].should.have.property('usersId');
+          response.body[0].should.have.property('id');
+        });
+    });
+    it('should return an error if no favorite bands saved for that user', () => {
+      return chai.request(server)
+        .get('/api/v1/users/3/favorite_bands')
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No favorite bands saved for user 3');   
+        });
+    });
+  });
+
+  describe('GET /api/v1/users/:id/favorite_venues', () => {
+    it('should return an array of a users favorite venues', () => {
+      return chai.request(server)
+        .get('/api/v1/users/1/favorite_venues')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(2);
+          response.body[0].should.have.property('venueId');
+          response.body[0].should.have.property('usersId');
+          response.body[0].should.have.property('id');
+        });
+    });
+    it('should return an error if no favorite venues saved for that user', () => {
+      return chai.request(server)
+        .get('/api/v1/users/3/favorite_venues')
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No favorite venues saved for user 3');
+        });
+    });
+  });
+
+  
   describe('POST /api/v1/users', () => {
     it("should add new users to users table", (done) => {
       chai.request(server)
