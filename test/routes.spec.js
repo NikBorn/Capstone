@@ -187,6 +187,32 @@ describe('API Routes', (done) => {
     });
   });
 
+  describe('GET /api/v1/venues/:id/fans', () => {
+    it('should return an array of venues fans', () => {
+      return chai.request(server)
+        .get('/api/v1/venues/1/fans')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('venueId');
+          response.body[0].should.have.property('usersId');
+          response.body[0].should.have.property('id');
+        });
+    });
+    it('should return an error if no fans are following that venue', () => {
+      return chai.request(server)
+        .get('/api/v1/venues/1000/fans')
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No fans following to venue 1000');
+        });
+    });
+  });
+
   
   describe('POST /api/v1/users', () => {
     it("should add new users to users table", (done) => {
