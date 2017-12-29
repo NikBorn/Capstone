@@ -95,7 +95,7 @@ app.get('/api/v1/users/:id/favorite_venues', (request, response) => { //neds upd
 });
 
 app.get('/api/v1/bands/:id/fans', (request, response) => {
-  database('users_bands').where('bandId', request.params.id).select()
+  database('bands_users').where('bandId', request.params.id).select()
     .then(fans => {
       if (fans.length) {
         return response.status(200).json(fans);
