@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static( '../Capstone-Frontend/public/'));
 app.use((request, response, next)=>{
   response.header('Access-Control-Allow-Origin', '*');
+  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 
@@ -143,7 +144,7 @@ app.get('/api/v1/venues/:id/fans', (request, response) => {
 app.post('/api/v1/users', (request, response) => {
   const newUser = request.body;
 
-  for ( let requiredParameter of ['name', 'email', 'preferredLocation']) {
+  for ( let requiredParameter of ['name', 'email']) {
     if (!newUser[requiredParameter]) {
       return response.status(422).json({
         error: `You are missing the ${requiredParameter} property`
