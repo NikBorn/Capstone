@@ -57,19 +57,19 @@ app.get('/api/v1/venues', (request, response) => {
     });
 });
 
-// app.get('/api/v1/users/:id', (request, response) => {
-//   database('users').where('id', request.params.id).select()
-//     .then(user => {
-//       if (user.length) {
-//         return response.status(200).json(user);
-//       } else {
-//         return response.status(404).json({ error: `No user for id ${request.params.id}` });
-//       }
-//     })
-//     .catch(error => {
-//       return response.status(500).json({ error });
-//     });
-// });
+app.get('/api/v1/users/:id', (request, response) => {
+  database('users').where('id', request.params.id).select()
+    .then(user => {
+      if (user.length) {
+        return response.status(200).json(user);
+      } else {
+        return response.status(404).json({ error: `No user for id ${request.params.id}` });
+      }
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
+});
 
 app.get('/api/v1/users/:email', (request, response) => {
   database('users').where('email', request.params.email).select()
