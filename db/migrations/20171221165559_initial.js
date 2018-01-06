@@ -13,10 +13,15 @@ exports.up = function(knex, Promise) {
       table.integer('apiKey');
     }),
 
-    knex.schema.createTable('venues', (table) => {
+    knex.schema.createTable('shows', (table) => {
       table.increments('id').primary();
-      table.string('venuesName');
+      table.string('title');
       table.integer('apiKey');
+      table.string('venue');
+      table.string('date');
+      table.string('latitude');
+      table.string('longitude');
+      table.string('description');
     }),
 
     knex.schema.createTable('bands_users', (table) => {
@@ -31,11 +36,11 @@ exports.up = function(knex, Promise) {
         .onDelete('CASCADE');
     }),
 
-    knex.schema.createTable('users_venues', (table) => {
+    knex.schema.createTable('users_shows', (table) => {
       table.increments('id').primary();
-      table.integer('venueId')
+      table.integer('showId')
         .unsigned()
-        .references('venues.id')
+        .references('shows.id')
         .onDelete('CASCADE');
       table.integer('usersId')
         .unsigned()
@@ -50,8 +55,8 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('bands_users'),
-    knex.schema.dropTable('users_venues'),
-    knex.schema.dropTable('venues'),
+    knex.schema.dropTable('users_shows'),
+    knex.schema.dropTable('shows'),
     knex.schema.dropTable('bands'),
     knex.schema.dropTable('users')
 

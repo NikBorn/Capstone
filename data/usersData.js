@@ -4,13 +4,13 @@ module.exports = [
     email: 'nik@nik.com',
     preferredLocation: 'denver, co',
     favBands: ['REM', 'Nathaniel Rateliff and the Nightsweats', 'Jay-Z', 'Cher', 'Metalica'],
-    favVenues: ['Red Rocks', 'The Ogden']
+    favShows: [`Joe Russo's Almost Dead`, 'Dead and Company']
   },
   {
     name: 'ben',
     email: 'ben@ben.com',
     preferredLocation: 'denver, co',
     favBands: ['STP', 'Beyonce', 'Eminem', 'Laydy Gaga', 'Micheal Bolton'],
-    favVenues: ['Fiddlers Green', 'The Bluebird']
+    favShows: ['Dark Star Orchestra', 'Phish']
   }
 ];
