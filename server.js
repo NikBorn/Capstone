@@ -71,13 +71,13 @@ app.get('/api/v1/users/:id', (request, response) => {
     });
 });
 
-app.get('/api/v1/users/:email', (request, response) => {
+app.get('/api/v1/users/email/:email', (request, response) => {
   database('users').where('email', request.params.email).select()
     .then(user => {
       if (user.length) {
         return response.status(200).json(user);
       } else {
-        return response.status(404).json({ error: `No user for id ${request.params.id}` });
+        return response.status(404).json({ error: `No user for email` });
       }
     })
     .catch(error => {
@@ -200,13 +200,13 @@ app.post('/api/v1/users/:userid/bands_users/:bandid', (request, response) => {
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
-app.post('/api/v1/users/:userid/users_shows/:shosid', (request, response) => {
+app.post('/api/v1/users/:userid/users_shows/:showid', (request, response) => {
   const { userid, showid } = request.params;
 
-  const favoriteShow = Object.assign({}, {usersId: userid}, {venueId: showid});
+  const favoriteShow = Object.assign({}, {usersId: userid}, {showId: showid});
 
-  database('users_Shows').insert(favoriteVenue, '*')
-    .then(insertedVenue => response.status(201).json(insertedVenue))
+  database('users_shows').insert(favoriteShow, '*')
+    .then(insertedShow => response.status(201).json(insertedShow))
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
@@ -228,10 +228,10 @@ app.delete('/api/v1/users/:userid/users_shows/:showid', (request, response) => {
 
   database('users_shows').where({usersId: userid,
     showId: showid}).del()
-    .then(show => show ?
+    .then(show => show  ?
       response.sendStatus(204)
       :
-      response.status(422).json({ error: `Nothing to delete with id ${showId || userId}`})
+      response.status(422).json({ error: `Nothing to delete with id ${showId || userId}` })
     )
     .catch(error =>  response.status(500).json({ error }));
 });
