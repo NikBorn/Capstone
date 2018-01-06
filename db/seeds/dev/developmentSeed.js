@@ -33,8 +33,6 @@ const createUserShowJoin = (knex, show, user) => {
     });
 };
 
-
-
 exports.seed = function (knex, Promise) {
   return knex('users_shows').del()
     .then(() => knex('bands_users').del())

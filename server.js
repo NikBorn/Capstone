@@ -47,10 +47,10 @@ app.get('/api/v1/bands_users', (request, response) => {
     });
 });
 
-app.get('/api/v1/venues', (request, response) => {
-  database('venues').select()
-    .then(venues => {
-      return response.status(200).json(venues);
+app.get('/api/v1/shows', (request, response) => {
+  database('shows').select()
+    .then(shows => {
+      return response.status(200).json(shows);
     })
     .catch(error => {
       return response.status(500).json({ error });
@@ -99,13 +99,13 @@ app.get('/api/v1/users/:id/favorite_bands', (request, response) => { //needs upd
     });
 });
 
-app.get('/api/v1/users/:id/favorite_venues', (request, response) => { //neds updating
-  database('users_venues').where('usersId', request.params.id).select()
-    .then(venues => {
-      if (venues.length) {
-        return response.status(200).json(venues);
+app.get('/api/v1/users/:id/favorite_shows', (request, response) => { //neds updating
+  database('users_shows').where('usersId', request.params.id).select()
+    .then(shows => {
+      if (shows.length) {
+        return response.status(200).json(shows);
       } else {
-        return response.status(404).json({ error: `No favorite venues saved for user ${request.params.id}` });
+        return response.status(404).json({ error: `No favorite shows saved for user ${request.params.id}` });
       }
     })
     .catch(error => {
@@ -127,13 +127,13 @@ app.get('/api/v1/bands/:id/fans', (request, response) => {
     });
 });
 
-app.get('/api/v1/venues/:id/fans', (request, response) => {
-  database('users_venues').where('venueId', request.params.id).select()
+app.get('/api/v1/shows/:id/fans', (request, response) => {
+  database('users_shows').where('showId', request.params.id).select()
     .then(fans => {
       if (fans.length) {
         return response.status(200).json(fans);
       } else {
-        return response.status(404).json({ error: `No fans following to venue ${request.params.id}` });
+        return response.status(404).json({ error: `No fans following to show ${request.params.id}` });
       }
     })
     .catch(error => {
@@ -173,10 +173,10 @@ app.post('/api/v1/bands', (request, response) => {
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
-app.post('/api/v1/venues', (request, response) => {
+app.post('/api/v1/shows', (request, response) => {
   const newVenue = request.body;
 
-  for ( let requiredParameter of ['venuesName', 'apiKey']) {
+  for ( let requiredParameter of ['title', 'apiKey', 'venue', 'date', 'latitude', 'longitude', 'description']) {
     if (!newVenue[requiredParameter]) {
       return response.status(422).json({
         error: `You are missing the ${requiredParameter} property`
@@ -184,8 +184,8 @@ app.post('/api/v1/venues', (request, response) => {
     }
   }
 
-  database('venues').insert(newVenue, '*')
-    .then(insertedVenue => response.status(201).json(insertedVenue))
+  database('shows').insert(newVenue, '*')
+    .then(insertedShow => response.status(201).json(insertedShow))
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
@@ -200,12 +200,12 @@ app.post('/api/v1/users/:userid/bands_users/:bandid', (request, response) => {
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
 
-app.post('/api/v1/users/:userid/users_venues/:venueid', (request, response) => {
-  const { userid, venueid } = request.params;
+app.post('/api/v1/users/:userid/users_shows/:shosid', (request, response) => {
+  const { userid, showid } = request.params;
 
-  const favoriteVenue = Object.assign({}, {usersId: userid}, {venueId: venueid});
+  const favoriteShow = Object.assign({}, {usersId: userid}, {venueId: showid});
 
-  database('users_venues').insert(favoriteVenue, '*')
+  database('users_Shows').insert(favoriteVenue, '*')
     .then(insertedVenue => response.status(201).json(insertedVenue))
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });
@@ -223,15 +223,15 @@ app.delete('/api/v1/users/:userid/bands_users/:bandid', (request, response) => {
     .catch(error =>  response.status(500).json({ error }));
 });
 
-app.delete('/api/v1/users/:userid/users_venues/:venueid', (request, response) => {
-  const { userid, venueid } = request.params;
+app.delete('/api/v1/users/:userid/users_shows/:showid', (request, response) => {
+  const { userid, showid } = request.params;
 
-  database('users_venues').where({usersId: userid,
-    venueId: venueid}).del()
-    .then(venue => venue ?
+  database('users_shows').where({usersId: userid,
+    showId: showid}).del()
+    .then(show => show ?
       response.sendStatus(204)
       :
-      response.status(422).json({ error: `Nothing to delete with id ${venueid || userId}`})
+      response.status(422).json({ error: `Nothing to delete with id ${showId || userId}`})
     )
     .catch(error =>  response.status(500).json({ error }));
 });

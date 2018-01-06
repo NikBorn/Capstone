@@ -1,6 +1,6 @@
 const usersInfo = require('../../../data/test-usersData');
 const bandsInfo = require('../../../data/test-bandsData');
-const venuesInfo = require('../../../data/test-venueData');
+const showsInfo = require('../../../data/test-showsData');
 const simpleUsers = require('../../../data/test-usersSimple');
 
 const createBandUserJoin = (knex, band, user) => {
@@ -18,44 +18,43 @@ const createBandUserJoin = (knex, band, user) => {
     });
 };
 
-const createUserVenueJoin = (knex, venue, user) => {
+const createUserShowJoin = (knex, show, user) => {
   return knex('users').where('name', user).first()
     .then(userRecord => {
-      return knex('venues').where('venuesName', venue).first()
-        .then(venueRecord => {
-          return knex('users_venues').insert({
-            venueId: venueRecord.id,
+      return knex('shows').where('title', show).first()
+        .then(showRecord => {
+          return knex('users_shows').insert({
+            showId: showRecord.id,
             usersId: userRecord.id
           });
         });
     });
 };
 
-
-
 exports.seed = function (knex, Promise) {
-  return knex('users_venues').del()
+  return knex('users_shows').del()
     .then(() => knex('bands_users').del())
-    .then(() => knex('venues').del())
+    .then(() => knex('shows').del())
     .then(() => knex('bands').del())
     .then(() => knex('users').del())
     .then(() => knex('bands').insert(bandsInfo, 'id'))
-    .then(() => knex('venues').insert(venuesInfo, 'id'))
+    .then(() => knex('shows').insert(showsInfo, 'id'))
     .then(() => knex('users').insert(simpleUsers, 'id'))
     .then(() => {
       let pendingPromises = [];
       usersInfo.forEach(user => {
         let bands = user.favBands;
-        let venues = user.favVenues;
+        let shows = user.favShows;
+
         bands.forEach(band => {
           pendingPromises.push(createBandUserJoin(knex, band, user.name));
         });
-        venues.forEach(venue => {
-          pendingPromises.push(createUserVenueJoin(knex, venue, user.name));
+        shows.forEach(show => {
+          pendingPromises.push(createUserShowJoin(knex, show, user.name));
         });
       });
       return Promise.all(pendingPromises);
     })
-    .then(() => console.log('Test Seeding Complete!'))
+    .then(() => console.log('Dev Seeding Complete!'))
     .catch(error => console.log({ error }));
 };
