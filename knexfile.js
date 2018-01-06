@@ -14,7 +14,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection: process.env.DATABASE_URL || 'postgres://localhost/event_tracker_test',
+    connection: process.env.DATABASE_URL || 'postgres://localhost/event_tracker_test_2',
     migrations: {
       directory: './db/migrations'
     },

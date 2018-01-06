@@ -1,7 +1,7 @@
 module.exports = [
   {
     id: 1,
-    title: `Test-Joe Russo's Almost Dead`,
+    title: 'Test-Joe Russo Almost Dead',
     apiKey: 12,
     venue: `Red Rocks`,
     date: `2018-06-023T07:00:00Z`,
@@ -11,7 +11,7 @@ module.exports = [
   },
   {
     id: 2,
-    title: `Test-Dead and Company`,
+    title: 'Test-Dead and Company',
     apiKey: 125,
     venue: `Dicks Sporting Goods Park`,
     date: `2018-07-04T07:00:00Z`,
@@ -21,7 +21,7 @@ module.exports = [
   },
   {
     id: 3,
-    title: `Test-Dark Star Orchestra`,
+    title: 'Test-Dark Star Orchestra',
     apiKey: 200,
     venue: `The Ogden`,
     date: `2018-11-23T07:00:00Z`,
@@ -31,7 +31,7 @@ module.exports = [
   },
   {
     id: 4,
-    title: `Test-Phish`,
+    title: 'Test-Phish',
     apiKey: 2,
     venue: `Blue Bird`,
     date: `2018-03-02T07:00:00Z`,
