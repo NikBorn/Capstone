@@ -1,18 +1,18 @@
 module.exports = [
   {
     userId: '1',
-    venueId: '1'
+    showId: '1'
   },
   {
     userId: '2',
-    venueId: '2'
+    showId: '2'
   },
   {
     userId: '1',
-    venueId: '3'
+    showId: '3'
   },
   {
     userId: '2',
-    venueId: '4'
+    showId: '4'
   }
 ];

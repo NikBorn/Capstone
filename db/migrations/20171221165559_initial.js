@@ -19,8 +19,8 @@ exports.up = function(knex, Promise) {
       table.integer('apiKey');
       table.string('venue');
       table.string('date');
-      table.integer('latitude');
-      table.integer('longitude');
+      table.string('latitude');
+      table.string('longitude');
       table.string('description');
     }),
 
@@ -38,7 +38,7 @@ exports.up = function(knex, Promise) {
 
     knex.schema.createTable('users_shows', (table) => {
       table.increments('id').primary();
-      table.integer('showsId')
+      table.integer('showId')
         .unsigned()
         .references('shows.id')
         .onDelete('CASCADE');
