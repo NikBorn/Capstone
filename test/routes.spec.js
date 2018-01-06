@@ -43,7 +43,7 @@ describe('API Routes', (done) => {
   });
 
   describe('GET /api/v1/bands', () => {
-    it.skip('should return all bands', () => {
+    it('should return all bands', () => {
       return chai.request(server)
         .get('/api/v1/bands')
         .then(response => {
@@ -60,23 +60,35 @@ describe('API Routes', (done) => {
   });
 
   describe('GET /api/v1/shows', () => {
-    it.skip('should return all venues', () => {
+    it('should return all shows', () => {
       return chai.request(server)
-        .get('/api/v1/venues')
+        .get('/api/v1/shows')
         .then(response => {
           response.should.have.status(200);
           response.should.be.json;
           response.body.should.be.a('array');
           response.body.length.should.equal(4);
-          response.body[0].should.have.property('venuesName');
-          response.body[0].venuesName.should.equal('TEST-Red Rocks');
+          response.body[0].should.have.property('title');
+          response.body[0].title.should.equal('Test-Joe Russo Almost Dead');
           response.body[0].should.have.property('id');
+          response.body[0].should.have.property('apiKey');
+          response.body[0].apiKey.should.equal(12);
+          response.body[0].should.have.property('venue');
+          response.body[0].venue.should.equal('Red Rocks');
+          response.body[0].should.have.property('date');
+          response.body[0].date.should.equal('2018-06-023T07:00:00Z');
+          response.body[0].should.have.property('latitude');
+          response.body[0].latitude.should.equal('-105.028102');
+          response.body[0].should.have.property('longitude');
+          response.body[0].longitude.should.equal('39.723253');
+          response.body[0].should.have.property('description');
+          response.body[0].description.should.equal('New Years Eve at the Vail Ale House with amazingmusic provided by The Drunken Hearts and The Grant Farm')
         })
         .catch(error => { throw error; });
     });
   });
 
-  describe.skip('GET /api/v1/users/:id', () => {
+  describe('GET /api/v1/users/:id', () => {
     it('shold return a specific user', () => {
       return chai.request(server)
         .get('/api/v1/users/1')
@@ -96,7 +108,7 @@ describe('API Routes', (done) => {
         .catch(error => { throw error; });
     });
 
-    it.skip('should not return a user if no user with that id exists', () => {
+    it('should not return a user if no user with that id exists', () => {
       return chai.request(server)
         .get('/api/v1/users/10')
         .then(response => {
@@ -109,8 +121,41 @@ describe('API Routes', (done) => {
     });
   });
 
+  describe('GET /api/v1/users/email/:email', () => {
+    it('shold return a specific user by email', () => {
+      return chai.request(server)
+        .get('/api/v1/users/email/nik@nik.com')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('name');
+          response.body[0].name.should.equal('TEST-nik');
+          response.body[0].should.have.property('id');
+          response.body[0].should.have.property('email');
+          response.body[0].email.should.equal('nik@nik.com');
+          response.body[0].should.have.property('preferredLocation');
+          response.body[0].preferredLocation.should.equal('denver, co');
+        })
+        .catch(error => { throw error; });
+    });
+
+    it('should not return a user if no user with that email exists', () => {
+      return chai.request(server)
+        .get('/api/v1/users/email/nik@nik.coms')
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No user for email');
+        })
+        .catch(error => { throw error; });
+    });
+  });
+
   describe('GET /api/v1/users/:id/favorite_bands', () => {
-    it.skip('should return an array of a users favorite bands', () => {
+    it('should return an array of a users favorite bands', () => {
       return chai.request(server)
         .get('/api/v1/users/2/favorite_bands')
         .then(response => {
@@ -124,7 +169,7 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip('should return an error if no favorite bands saved for that user', () => {
+    it('should return an error if no favorite bands saved for that user', () => {
       return chai.request(server)
         .get('/api/v1/users/3/favorite_bands')
         .then(response => {
@@ -138,36 +183,37 @@ describe('API Routes', (done) => {
     });
   });
 
-  describe('GET /api/v1/users/:id/favorite_venues', () => {
-    it.skip('should return an array of a users favorite venues', () => {
+  describe('GET /api/v1/users/:id/favorite_shows', () => {
+    it('should return an array of a users favorite shows', () => {
       return chai.request(server)
-        .get('/api/v1/users/1/favorite_venues')
+        .get('/api/v1/users/1/favorite_shows')
         .then(response => {
           response.should.have.status(200);
           response.should.be.json;
           response.body.should.be.a('array');
           response.body.length.should.equal(2);
-          response.body[0].should.have.property('venueId');
+          response.body[0].should.have.property('showId');
           response.body[0].should.have.property('usersId');
+          response.body[0].usersId.should.equal(1);
           response.body[0].should.have.property('id');
         })
         .catch(error => { throw error; });
     });
-    it.skip('should return an error if no favorite venues saved for that user', () => {
+    it('should return an error if no favorite shows saved for that user', () => {
       return chai.request(server)
-        .get('/api/v1/users/3/favorite_venues')
+        .get('/api/v1/users/3/favorite_shows')
         .then(response => {
           response.should.have.status(404);
           response.should.be.json;
           response.body.should.be.a('object');
-          response.body.error.should.equal('No favorite venues saved for user 3');
+          response.body.error.should.equal('No favorite shows saved for user 3');
         })
         .catch(error => { throw error; });
     });
   });
 
   describe('GET /api/v1/bands/:id/fans', () => {
-    it.skip('should return an array of bands fans', () => {
+    it('should return an array of bands fans', () => {
       return chai.request(server)
         .get('/api/v1/bands/1/fans')
         .then(response => {
@@ -181,7 +227,7 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip('should return an error if no fans are following that band', () => {
+    it('should return an error if no fans are following that band', () => {
       return chai.request(server)
         .get('/api/v1/bands/1000/fans')
         .then(response => {
@@ -194,29 +240,30 @@ describe('API Routes', (done) => {
     });
   });
 
-  describe('GET /api/v1/venues/:id/fans', () => {
-    it.skip('should return an array of venues fans', () => {
+  describe('GET /api/v1/shows/:id/fans', () => {
+    it('should return an array of shows fans', () => {
       return chai.request(server)
-        .get('/api/v1/venues/1/fans')
+        .get('/api/v1/shows/1/fans')
         .then(response => {
           response.should.have.status(200);
           response.should.be.json;
           response.body.should.be.a('array');
           response.body.length.should.equal(1);
-          response.body[0].should.have.property('venueId');
+          response.body[0].should.have.property('showId');
+          response.body[0].showId.should.equal(1);
           response.body[0].should.have.property('usersId');
+          response.body[0].usersId.should.equal(1);
           response.body[0].should.have.property('id');
         })
         .catch(error => { throw error; });
     });
-    it.skip('should return an error if no fans are following that venue', () => {
+    it('should return an error if no fans are following that show', () => {
       return chai.request(server)
-        .get('/api/v1/venues/1000/fans')
+        .get('/api/v1/shows/1000/fans')
         .then(response => {
           response.should.have.status(404);
-          response.should.be.json;
           response.body.should.be.a('object');
-          response.body.error.should.equal('No fans following to venue 1000');
+          response.body.error.should.equal('No fans following to show 1000');
         })
         .catch(error => { throw error; });
     });
@@ -224,7 +271,7 @@ describe('API Routes', (done) => {
 
   
   describe('POST /api/v1/users', () => {
-    it.skip("should add new users to users table", (done) => {
+    it("should add new users to users table", (done) => {
       chai.request(server)
         .post('/api/v1/users')
         .send({
@@ -250,7 +297,7 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip("should display an error if request body is missing parameter", (done) => {
+    it("should display an error if request body is missing parameter", (done) => {
       chai.request(server)
         .post('/api/v1/users')
         .send({
@@ -270,7 +317,7 @@ describe('API Routes', (done) => {
   });
 
   describe('POST /api/v1/bands', () => {
-    it.skip("should add new band to bands table", (done) => {
+    it("should add new band to bands table", (done) => {
       chai.request(server)
         .post('/api/v1/bands')
         .send({
@@ -293,7 +340,7 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip("should display an error if request body is missing parameter", (done) => {
+    it("should display an error if request body is missing parameter", (done) => {
       chai.request(server)
         .post('/api/v1/users')
         .send({
@@ -311,36 +358,56 @@ describe('API Routes', (done) => {
     });
   });
 
-  describe('POST /api/v1/venues', () => {
-    it.skip("should add new venue to venuess table", (done) => {
+  describe('POST /api/v1/shows', () => {
+    it("should add new venue to shows table", (done) => {
       chai.request(server)
-        .post('/api/v1/venues')
+        .post('/api/v1/shows')
         .send({
           id: 25,
-          venuesName: 'Ogden Theater',
-          apiKey: 15
+          title: 'Phil Lesh and Friends',
+          apiKey: 15,
+          venue: 'Terripain Crossroads',
+          date: '2018-03-23T07:00:00Z',
+          latitude: '-120.342',
+          longitude: '45.876',
+          description: 'Come see Phil, John Scofeild, John Molo and More.'
         })
         .then(response => {
           response.should.have.status(201);
           response.should.be.json;
           response.body.should.be.a('array');
           response.body.length.should.equal(1);
-          response.body[0].should.have.property('venuesName');
-          response.body[0].venuesName.should.equal('Ogden Theater');
+          response.body[0].should.have.property('title');
+          response.body[0].title.should.equal('Phil Lesh and Friends');
           response.body[0].should.have.property('id');
           response.body[0].id.should.equal(25);
           response.body[0].should.have.property('apiKey');
           response.body[0].apiKey.should.equal(15);
+          response.body[0].should.have.property('venue');
+          response.body[0].venue.should.equal('Terripain Crossroads');
+          response.body[0].should.have.property('date');
+          response.body[0].date.should.equal('2018-03-23T07:00:00Z');
+          response.body[0].should.have.property('latitude');
+          response.body[0].latitude.should.equal('-120.342');
+          response.body[0].should.have.property('longitude');
+          response.body[0].longitude.should.equal('45.876');
+          response.body[0].should.have.property('description');
+          response.body[0].description.should.equal('Come see Phil, John Scofeild, John Molo and More.');
           done();
         })
         .catch(error => { throw error; });
     });
-    it.skip("should display an error if request body is missing parameter", (done) => {
+    it("should display an error if request body is missing parameter", (done) => {
       chai.request(server)
-        .post('/api/v1/venues')
+        .post('/api/v1/shows')
         .send({
           id: 25,
-          venuesName: 'Ogden Theater'
+          title: 'Phil Lesh and Friends',
+          venue: 'Terripain Crossroads',
+          date: '2018-03-23T07:00:00Z',
+          latitude: '-120.342',
+          longitude: '45.876',
+          description: 'Come see Phil, John Scofeild, John Molo and More.'
         })
         .then(response => {
           response.should.have.status(422);
@@ -354,7 +421,7 @@ describe('API Routes', (done) => {
   });
 
   describe('POST /api/v1/users/:id/bands_users/:bandid', () => {
-    it.skip("should add new favband ID and user ID to the bands_users joins table", (done) => {
+    it("should add new favband ID and user ID to the bands_users joins table", (done) => {
       chai.request(server)
         .post('/api/v1/users/1/bands_users/1')
         .then(response => {
@@ -371,7 +438,7 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip("should display an error if request body is missing url param", (done) => {
+    it("should display an error if request body is missing url param", (done) => {
       chai.request(server)
         .post('/api/v1/users/1/bands_users/')
         .then(response => {
@@ -382,17 +449,17 @@ describe('API Routes', (done) => {
     });
   });
 
-  describe('POST /api/v1/users/:userid/users_venues/:venueid', () => {
-    it.skip("should add new favband ID and user ID to the users_venues joins table", (done) => {
+  describe('POST /api/v1/users/:userid/users_shows/:showid', () => {
+    it("should add new favband ID and user ID to the users_show joins table", (done) => {
       chai.request(server)
-        .post('/api/v1/users/1/users_venues/1')
+        .post('/api/v1/users/1/users_shows/1')
         .then(response => {
           response.should.have.status(201);
           response.should.be.json;
           response.body.should.be.a('array');
           response.body.length.should.equal(1);
-          response.body[0].should.have.property('venueId');
-          response.body[0].venueId.should.equal(1);
+          response.body[0].should.have.property('showId');
+          response.body[0].showId.should.equal(1);
           response.body[0].should.have.property('id');
           response.body[0].should.have.property('usersId');
           response.body[0].usersId.should.equal(1);
@@ -400,9 +467,9 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip("should display an error if request body is missing url param", (done) => {
+    it("should display an error if request body is missing url param", (done) => {
       chai.request(server)
-        .post('/api/v1/users/1/users_venues/')
+        .post('/api/v1/users/1/users_shows/')
         .then(response => {
           response.should.have.status(404);
           done();
@@ -412,7 +479,7 @@ describe('API Routes', (done) => {
   });
 
   describe('DELETE /api/v1/users/:userid/bands_users/:bandid', () => {
-    it.skip("should delete band from bands_users table", (done) => {
+    it("should delete band from bands_users table", (done) => {
       chai.request(server)
         .delete('/api/v1/users/1/bands_users/1')
         .then(response => {
@@ -421,7 +488,7 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip("should serve an error if band is not found", (done) => {
+    it("should serve an error if band is not found", (done) => {
       chai.request(server)
         .delete('/api/v1/users/1/bands_users/100')
         .then(response => {
@@ -435,10 +502,10 @@ describe('API Routes', (done) => {
     });
   });
 
-  describe('DELETE /api/v1/users/:userid/users_venues/:venueid', () => {
-    it.skip("should delete venue from users_venues table", (done) => {
+  describe('DELETE /api/v1/users/:userid/users_shows/:showsid', () => {
+    it("should delete shows from users_shows table", (done) => {
       chai.request(server)
-        .delete('/api/v1/users/1/users_venues/1')
+        .delete('/api/v1/users/1/users_shows/1')
         .then(response => {
           response.should.have.status(204);
           done();
@@ -447,7 +514,7 @@ describe('API Routes', (done) => {
     });
     it.skip("should serve an error if venue is not found", (done) => {
       chai.request(server)
-        .delete('/api/v1/users/1/users_venues/100')
+        .delete('/api/v1/users/1/users_shows/100')
         .then(response => {
           response.should.have.status(422);
           response.should.be.json;
@@ -472,7 +539,7 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip('should return 404 error for user that does not exist', (done) => {
+    it('should return 404 error for user that does not exist', (done) => {
       chai.request(server)
         .patch('/api/v1/users/100')
         .send({
