@@ -10,7 +10,7 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static( '../Capstone-Frontend/public/'));
+app.use(express.static(__dirname + '/public'));
 app.use((request, response, next)=>{
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
