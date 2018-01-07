@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test mocha --exit",
     "lint": "./node_modules/.bin/eslint ./",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",

@@ -160,7 +160,7 @@ app.post('/api/v1/users', (request, response) => {
 app.post('/api/v1/bands', (request, response) => {
   const newBand = request.body;
 
-  for ( let requiredParameter of ['bandName', 'apiKey']) {
+  for ( let requiredParameter of ['bandName']) {
     if (!newBand[requiredParameter]) {
       return response.status(422).json({
         error: `You are missing the ${requiredParameter} property`
