@@ -174,17 +174,16 @@ app.post('/api/v1/bands', (request, response) => {
 });
 
 app.post('/api/v1/shows', (request, response) => {
-  const newVenue = request.body;
-
-  for ( let requiredParameter of ['title', 'apiKey', 'venue', 'date', 'latitude', 'longitude', 'description']) {
-    if (!newVenue[requiredParameter]) {
+  const newShow = request.body;
+  for (let requiredParameter of ['title', 'apiKey', 'venue', 'date', 'latitude', 'longitude', 'description']) {
+    if (!newShow[requiredParameter]) {
       return response.status(422).json({
         error: `You are missing the ${requiredParameter} property`
       });
     }
   }
 
-  database('shows').insert(newVenue, '*')
+  database('shows').insert(newShow, '*')
     .then(insertedShow => response.status(201).json(insertedShow))
     .catch(error => response.status(500).json({ error: `Internal Server Error ${error}`}));
 });

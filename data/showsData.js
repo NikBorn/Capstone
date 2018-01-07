@@ -1,7 +1,7 @@
 module.exports = [
   {
     title: `Joe Russo's Almost Dead`,
-    apiKey: 12,
+    apiKey: "12",
     venue: `Red Rocks`,
     date: `2018-06-023T07:00:00Z`,
     latitude: '-105.028102',
@@ -10,7 +10,7 @@ module.exports = [
   },
   {
     title: `Dead and Company`,
-    apiKey: 125,
+    apiKey: "125",
     venue: `Dicks Sporting Goods Park`,
     date: `2018-07-04T07:00:00Z`,
     latitude: '-125.028102',
@@ -19,7 +19,7 @@ module.exports = [
   },
   {
     title: `Dark Star Orchestra`,
-    apiKey: 200,
+    apiKey: "200",
     venue: `The Ogden`,
     date: `2018-11-23T07:00:00Z`,
     latitude: '-115.028102',
@@ -28,7 +28,7 @@ module.exports = [
   },
   {
     title: `Phish`,
-    apiKey: 2,
+    apiKey: "2",
     venue: `Blue Bird`,
     date: `2018-03-02T07:00:00Z`,
     latitude: '-104.028102',
