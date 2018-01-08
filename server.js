@@ -10,7 +10,7 @@ app.set('port', process.env.PORT || 3000);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static( '../Capstone-Frontend/public/'));
+app.use(express.static(__dirname + '/public'));
 app.use((request, response, next)=>{
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -31,6 +31,20 @@ app.get('/api/v1/bands', (request, response) => {
   database('bands').select()
     .then(bands => {
       return response.status(200).json(bands);
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
+});
+
+app.get('/api/v1/bands/:id', (request, response) => {
+  database('bands').where('id', request.params.id).select()
+    .then(band => {
+      if (band.length) {
+        return response.status(200).json(band);
+      } else {
+        return response.status(404).json({ error: `No bandname for id ${request.params.id}`})
+      }
     })
     .catch(error => {
       return response.status(500).json({ error });
@@ -160,7 +174,7 @@ app.post('/api/v1/users', (request, response) => {
 app.post('/api/v1/bands', (request, response) => {
   const newBand = request.body;
 
-  for ( let requiredParameter of ['bandName', 'apiKey']) {
+  for ( let requiredParameter of ['bandName']) {
     if (!newBand[requiredParameter]) {
       return response.status(422).json({
         error: `You are missing the ${requiredParameter} property`
