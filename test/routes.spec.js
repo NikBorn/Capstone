@@ -183,6 +183,48 @@ describe('API Routes', (done) => {
     });
   });
 
+  describe('GET /api/v1/shows/:id', () => {
+    it('should return a show from the id', () => {
+      return chai.request(server)
+        .get('/api/v1/shows/1')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('title');
+          response.body[0].title.should.equal('Test-Joe Russo Almost Dead');
+          response.body[0].should.have.property('id');
+          response.body[0].should.have.property('apiKey');
+          response.body[0].apiKey.should.equal(12);
+          response.body[0].should.have.property('venue');
+          response.body[0].venue.should.equal('Red Rocks');
+          response.body[0].should.have.property('date');
+          response.body[0].date.should.equal('2018-06-023T07:00:00Z');
+          response.body[0].should.have.property('latitude');
+          response.body[0].latitude.should.equal('-105.028102');
+          response.body[0].should.have.property('longitude');
+          response.body[0].longitude.should.equal('39.723253');
+          response.body[0].should.have.property('description');
+          response.body[0].description.should.equal('New Years Eve at the Vail Ale House with amazingmusic provided by The Drunken Hearts and The Grant Farm')
+        })
+        .catch(error => { throw error; });
+    });
+
+    it('should return an error if no show with that id', () => {
+      return chai.request(server)
+        .get('/api/v1/shows/100')
+        .then(response => {
+          response.should.have.status(404);
+          response.should.be.json;
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No favorite shows saved for ID 100');
+        })
+        .catch(error => { throw error; });
+    });
+  });
+
   describe('GET /api/v1/users/:id/favorite_shows', () => {
     it('should return an array of a users favorite shows', () => {
       return chai.request(server)

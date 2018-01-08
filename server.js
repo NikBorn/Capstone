@@ -11,6 +11,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static( '../Capstone-Frontend/public/'));
+
 app.use((request, response, next)=>{
   response.header('Access-Control-Allow-Origin', '*');
   response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -92,6 +93,20 @@ app.get('/api/v1/users/:id/favorite_bands', (request, response) => { //needs upd
         return response.status(200).json(bands);
       } else {
         return response.status(404).json({ error: `No favorite bands saved for user ${request.params.id}`});
+      }
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
+});
+
+app.get('/api/v1/shows/:id', (request, response) => { //needs updating
+  database('shows').where('id', request.params.id).select()
+    .then(shows => {
+      if (shows.length) {
+        return response.status(200).json(shows);
+      } else {
+        return response.status(404).json({ error: `No favorite shows saved for ID ${request.params.id}` });
       }
     })
     .catch(error => {
