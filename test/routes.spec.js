@@ -82,7 +82,7 @@ describe('API Routes', (done) => {
           response.body[0].should.have.property('longitude');
           response.body[0].longitude.should.equal('39.723253');
           response.body[0].should.have.property('description');
-          response.body[0].description.should.equal('New Years Eve at the Vail Ale House with amazingmusic provided by The Drunken Hearts and The Grant Farm')
+          response.body[0].description.should.equal('New Years Eve at the Vail Ale House with amazingmusic provided by The Drunken Hearts and The Grant Farm');
         })
         .catch(error => { throw error; });
     });
@@ -266,6 +266,33 @@ describe('API Routes', (done) => {
           response.body.error.should.equal('No fans following to show 1000');
         })
         .catch(error => { throw error; });
+    });
+  });
+
+  describe('GET /api/v1/bands/:id', () => {
+    it('should return a band based on id', () => {
+      return chai.request(server)
+        .get('/api/v1/bands/1')
+        .then(response => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.length.should.equal(1);
+          response.body[0].should.have.property('id');
+          response.body[0].id.should.equal(1);       
+          response.body[0].should.have.property('bandName');
+          response.body[0].bandName.should.equal('TEST-REM');
+        })
+        .catch(error => { throw error; });
+    });
+    it('should not return a band if no band exists with that id', () => {
+      return chai.request(server)
+        .get('/api/v1/bands/1000000000')
+        .then(response => {
+          response.should.have.status(404);
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No bandname for id 1000000000');
+        });
     });
   });
 

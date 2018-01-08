@@ -54,7 +54,7 @@ exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('bands_users'),
     knex.schema.dropTable('users_shows'),
-    knex.schema.dropTable('shows')
+    knex.schema.dropTable('shows'),
     knex.schema.dropTable('bands'),
     knex.schema.dropTable('users')
 
