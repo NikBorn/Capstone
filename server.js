@@ -37,6 +37,20 @@ app.get('/api/v1/bands', (request, response) => {
     });
 });
 
+app.get('/api/v1/bands/:id', (request, response) => {
+  database('bands').where('id', request.params.id).select()
+    .then(band => {
+      if (band.length) {
+        return response.status(200).json(band);
+      } else {
+        return response.status(404).json({ error: `No bandname for id ${request.params.id}`})
+      }
+    })
+    .catch(error => {
+      return response.status(500).json({ error });
+    });
+});
+
 app.get('/api/v1/bands_users', (request, response) => {
   database('bands_users').select()
     .then(bands => {
