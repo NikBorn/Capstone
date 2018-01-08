@@ -43,7 +43,7 @@ app.get('/api/v1/bands/:id', (request, response) => {
       if (band.length) {
         return response.status(200).json(band);
       } else {
-        return response.status(404).json({ error: `No bandname for id ${request.params.id}`})
+        return response.status(404).json({ error: `No bandname for id ${request.params.id}`});
       }
     })
     .catch(error => {

@@ -285,7 +285,15 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-
+    it('should not return a band if no band exists with that id', () => {
+      return chai.request(server)
+        .get('/api/v1/bands/1000000000')
+        .then(response => {
+          response.should.have.status(404);
+          response.body.should.be.a('object');
+          response.body.error.should.equal('No bandname for id 1000000000');
+        });
+    });
   });
 
   
