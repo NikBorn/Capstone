@@ -72,7 +72,7 @@ describe('API Routes', (done) => {
           response.body[0].title.should.equal('Test-Joe Russo Almost Dead');
           response.body[0].should.have.property('id');
           response.body[0].should.have.property('apiKey');
-          response.body[0].apiKey.should.equal(12);
+          response.body[0].apiKey.should.equal('12');
           response.body[0].should.have.property('venue');
           response.body[0].venue.should.equal('Red Rocks');
           response.body[0].should.have.property('date');
@@ -196,7 +196,7 @@ describe('API Routes', (done) => {
           response.body[0].title.should.equal('Test-Joe Russo Almost Dead');
           response.body[0].should.have.property('id');
           response.body[0].should.have.property('apiKey');
-          response.body[0].apiKey.should.equal(12);
+          response.body[0].apiKey.should.equal('12');
           response.body[0].should.have.property('venue');
           response.body[0].venue.should.equal('Red Rocks');
           response.body[0].should.have.property('date');
@@ -386,29 +386,7 @@ describe('API Routes', (done) => {
   });
 
   describe('POST /api/v1/bands', () => {
-    it("should add new band to bands table", (done) => {
-      chai.request(server)
-        .post('/api/v1/bands')
-        .send({
-          id: 25,
-          bandName: 'The Grateful Dead',
-          apiKey: 29
-        })
-        .then(response => {
-          response.should.have.status(201);
-          response.should.be.json;
-          response.body.should.be.a('array');
-          response.body.length.should.equal(1);
-          response.body[0].should.have.property('bandName');
-          response.body[0].bandName.should.equal('The Grateful Dead');
-          response.body[0].should.have.property('id');
-          response.body[0].id.should.equal(25);
-          response.body[0].should.have.property('apiKey');
-          response.body[0].apiKey.should.equal(29);
-          done();
-        })
-        .catch(error => { throw error; });
-    });
+
     it("should display an error if request body is missing parameter", (done) => {
       chai.request(server)
         .post('/api/v1/users')
@@ -428,44 +406,6 @@ describe('API Routes', (done) => {
   });
 
   describe('POST /api/v1/shows', () => {
-    it("should add new venue to shows table", (done) => {
-      chai.request(server)
-        .post('/api/v1/shows')
-        .send({
-          id: 25,
-          title: 'Phil Lesh and Friends',
-          apiKey: 15,
-          venue: 'Terripain Crossroads',
-          date: '2018-03-23T07:00:00Z',
-          latitude: '-120.342',
-          longitude: '45.876',
-          description: 'Come see Phil, John Scofeild, John Molo and More.'
-        })
-        .then(response => {
-          response.should.have.status(201);
-          response.should.be.json;
-          response.body.should.be.a('array');
-          response.body.length.should.equal(1);
-          response.body[0].should.have.property('title');
-          response.body[0].title.should.equal('Phil Lesh and Friends');
-          response.body[0].should.have.property('id');
-          response.body[0].id.should.equal(25);
-          response.body[0].should.have.property('apiKey');
-          response.body[0].apiKey.should.equal(15);
-          response.body[0].should.have.property('venue');
-          response.body[0].venue.should.equal('Terripain Crossroads');
-          response.body[0].should.have.property('date');
-          response.body[0].date.should.equal('2018-03-23T07:00:00Z');
-          response.body[0].should.have.property('latitude');
-          response.body[0].latitude.should.equal('-120.342');
-          response.body[0].should.have.property('longitude');
-          response.body[0].longitude.should.equal('45.876');
-          response.body[0].should.have.property('description');
-          response.body[0].description.should.equal('Come see Phil, John Scofeild, John Molo and More.');
-          done();
-        })
-        .catch(error => { throw error; });
-    });
     it("should display an error if request body is missing parameter", (done) => {
       chai.request(server)
         .post('/api/v1/shows')
