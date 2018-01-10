@@ -466,27 +466,6 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it("should display an error if request body is missing parameter", (done) => {
-      chai.request(server)
-        .post('/api/v1/shows')
-        .send({
-          id: 25,
-          title: 'Phil Lesh and Friends',
-          venue: 'Terripain Crossroads',
-          date: '2018-03-23T07:00:00Z',
-          latitude: '-120.342',
-          longitude: '45.876',
-          description: 'Come see Phil, John Scofeild, John Molo and More.'
-        })
-        .then(response => {
-          response.should.have.status(422);
-          response.should.be.json;
-          response.body.should.be.a('object');
-          response.body.error.should.equal('You are missing the apiKey property');
-          done();
-        })
-        .catch(error => { throw error; });
-    });
   });
 
   describe('POST /api/v1/users/:id/bands_users/:bandid', () => {
