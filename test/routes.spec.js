@@ -72,7 +72,7 @@ describe('API Routes', (done) => {
           response.body[0].title.should.equal('Test-Joe Russo Almost Dead');
           response.body[0].should.have.property('id');
           response.body[0].should.have.property('apiKey');
-          response.body[0].apiKey.should.equal('12');
+          response.body[0].apiKey.should.equal('12');//have to leave this as a string to pass circleCi, but it only passes locally as an integer
           response.body[0].should.have.property('venue');
           response.body[0].venue.should.equal('Red Rocks');
           response.body[0].should.have.property('date');
@@ -542,3 +542,5 @@ describe('API Routes', (done) => {
   });
 
 });
+
+//note
