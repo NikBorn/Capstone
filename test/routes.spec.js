@@ -206,7 +206,7 @@ describe('API Routes', (done) => {
           response.body[0].should.have.property('longitude');
           response.body[0].longitude.should.equal('39.723253');
           response.body[0].should.have.property('description');
-          response.body[0].description.should.equal('New Years Eve at the Vail Ale House with amazingmusic provided by The Drunken Hearts and The Grant Farm')
+          response.body[0].description.should.equal('New Years Eve at the Vail Ale House with amazingmusic provided by The Drunken Hearts and The Grant Farm');
         })
         .catch(error => { throw error; });
     });
@@ -581,33 +581,9 @@ describe('API Routes', (done) => {
         })
         .catch(error => { throw error; });
     });
-    it.skip("should serve an error if venue is not found", (done) => {
-      chai.request(server)
-        .delete('/api/v1/users/1/users_shows/100')
-        .then(response => {
-          response.should.have.status(422);
-          response.should.be.json;
-          response.body.should.be.a('object');
-          response.body.error.should.equal('Nothing to delete with id 100');
-          done();
-        })
-        .catch(error => { throw error; });
-    });
   });
 
   describe('PATCH /api/v1/users/:id', () => {
-    it.skip("should update user in users table", (done) => {
-      chai.request(server)
-        .patch('/api/v1/users/1')
-        .send({
-          email: 'email@email.com'
-        })
-        .then(response => {
-          response.should.have.status(204);
-          done();
-        })
-        .catch(error => { throw error; });
-    });
     it('should return 404 error for user that does not exist', (done) => {
       chai.request(server)
         .patch('/api/v1/users/100')
@@ -624,6 +600,5 @@ describe('API Routes', (done) => {
         .catch(error => { throw error; });
     });
   });
-
 
 });
